@@ -25,7 +25,7 @@ namespace Application.Features.Carts.Commands.Events
 
         public async Task Handle(ProductPriceChangedEvent notification, CancellationToken cancellationToken)
         {
-            await cartRepository.UpdateTotalPrice(notification.ProductId, notification.Price);
+            await cartRepository.UpdatePrice(notification.ProductId, notification.Price);
         }
 
         #endregion

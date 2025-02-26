@@ -24,7 +24,7 @@ namespace Infrastructure.Persistence.Repositories
         }
 
 
-        public async Task UpdateTotalPrice(Guid productId, decimal price)
+        public async Task UpdatePrice(Guid productId, decimal price)
         {
             //await context.Database.ExecuteSqlRawAsync(@"
             //        UPDATE CartItems
