@@ -9,14 +9,24 @@ namespace Application.Features.Products.Commands.Update
 {
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
     {
+        #region Fields
+
         private readonly IProductRepository productRepository;
         private readonly IUnitOfWork unitOfWork;
+
+        #endregion
+
+        #region Constructors
 
         public UpdateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
             this.productRepository = productRepository;
         }
+
+        #endregion
+
+        #region Methods
 
         public async Task Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
@@ -34,5 +44,7 @@ namespace Application.Features.Products.Commands.Update
             if (requestName != productName && nameExist)
                 throw new ValidationException(Localizations.Exist);
         }
+
+        #endregion
     }
 }
