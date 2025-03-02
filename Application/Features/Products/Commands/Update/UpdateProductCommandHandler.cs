@@ -1,4 +1,5 @@
-﻿using Domain._Base.Interfaces;
+﻿using Application.Services;
+using Domain._Base.Interfaces;
 using Domain.Products;
 using Domain.Products.Interfaces;
 using MediatR;
@@ -13,14 +14,16 @@ namespace Application.Features.Products.Commands.Update
 
         private readonly IProductRepository productRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IUpdateCartPriceService updateCartPriceService;
 
         #endregion
 
         #region Constructors
 
-        public UpdateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
+        public UpdateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, IUpdateCartPriceService updateCartPriceService)
         {
             this.unitOfWork = unitOfWork;
+            this.updateCartPriceService = updateCartPriceService;
             this.productRepository = productRepository;
         }
 
@@ -36,6 +39,12 @@ namespace Application.Features.Products.Commands.Update
             product.Update(request.Name, request.Description, request.Price);
             productRepository.Update(product);
             await unitOfWork.SaveAsync(cancellationToken);
+
+            #region Using BackgroundService Approach
+
+            await updateCartPriceService.QueuePriceUpdateAsync(request.Id, request.Price);
+
+            #endregion
         }
 
         private async Task GuardAgainstDuplicatedName(string requestName, string productName)

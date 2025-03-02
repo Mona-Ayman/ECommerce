@@ -1,6 +1,5 @@
 ﻿using Domain._Base.Models;
 using Domain.Products.Enums;
-using Domain.Products.Events;
 using Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 
@@ -86,8 +85,11 @@ namespace Domain.Products
 
             TrackingPrices.Add(new TrackingProductPrice(price));
 
-            ProductPriceChangedEvent productPriceChangedEvent = new(this.Id, price);
-            AddDomainEvent(productPriceChangedEvent);
+            #region Using SQL Approach
+
+            //ProductPriceChangedEvent productPriceChangedEvent = new(this.Id, price);
+            //AddDomainEvent(productPriceChangedEvent);
+            #endregion
         }
 
         #endregion

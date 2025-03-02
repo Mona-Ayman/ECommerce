@@ -57,18 +57,17 @@ namespace Domain.Carts
             TotalAmount = Items.Sum(x => x.TotalPrice);
         }
 
-        //public async void ChangeItemPrice(Guid productId, decimal price)
-        //{
+        public void ChangeItemPrice(Guid productId, decimal price)
+        {
 
-        //    //List<CartItem> cartItems = Items.Where(i => i.ProductId == productId).ToList();
-        //    List<CartItem> cartItems = await cartItemRepository.GetCartItemsByProductId(productId);
+            List<CartItem> cartItems = Items.Where(i => i.ProductId == productId).ToList();
+            if (cartItems == null) return;
 
-        //    foreach (var item in cartItems)
-        //        item.SetPrice(price);
+            foreach (var item in cartItems)
+                item.SetPrice(price);
 
-        //    //TotalAmount = Items.Sum(x => x.TotalPrice);
-        //    TotalAmount = await cartItemRepository.GetTotalAmountAsync(this.Id);
-        //}
+            TotalAmount = Items.Sum(x => x.TotalPrice);
+        }
 
         #endregion
     }

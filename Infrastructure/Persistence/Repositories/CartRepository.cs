@@ -14,6 +14,11 @@ namespace Infrastructure.Persistence.Repositories
         {
         }
 
+        public async Task<List<Cart>> GetByProductId(Guid productId)
+        {
+            return await dbset.Where(c => c.Items.Any(i => i.ProductId == productId)).ToListAsync();
+        }
+
         #endregion
 
         #region Methods

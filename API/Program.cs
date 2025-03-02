@@ -1,6 +1,7 @@
 using API.Extensions;
 using API.Middlewares;
 using Application.Extensions;
+using Infrastructure.Carts.Extensions;
 using Infrastructure.Identity.Extensions;
 using Infrastructure.Persistence.Extensions;
 using Microsoft.Extensions.Options;
@@ -22,6 +23,7 @@ namespace API
             builder.Services.AddAPI(builder.Configuration);
             builder.Services.AddApplication();
             builder.Services.AddIdentityService();
+            builder.Services.AddCartService();
             builder.Services.AddRepositories(builder.Configuration);
             builder.Services.AddControllersWithViews();
             builder.Services.AddLocalizationServices();
