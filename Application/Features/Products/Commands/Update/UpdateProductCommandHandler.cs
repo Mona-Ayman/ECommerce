@@ -26,8 +26,6 @@ namespace Application.Features.Products.Commands.Update
             product.Update(request.Name, request.Description, request.Price);
             productRepository.Update(product);
             await unitOfWork.SaveAsync(cancellationToken);
-
-
         }
 
         private async Task GuardAgainstDuplicatedName(string requestName, string productName)
