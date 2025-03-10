@@ -1,15 +1,26 @@
 ﻿using API.Controllers.Base;
+using API.Helper;
+using Application.Services;
 using Infrastructure.Persistence.Context.ECommerce.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     public class TestController : ApiControllerBase
     {
         private readonly ECommerceContext context;
+        private readonly ICacheService cacheService;
 
-        public TestController(ECommerceContext context)
+        public TestController(ECommerceContext context, ICacheService cacheService)
         {
             this.context = context;
+            this.cacheService = cacheService;
+        }
+        [HttpGet]
+        public async Task<GlobalResponse<string>> AddProducts()
+        {
+            string data = cacheService.GetData<string>("Products");
+            return ReturnResponse(data);
         }
 
         //[HttpPost]

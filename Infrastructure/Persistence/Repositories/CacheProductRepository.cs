@@ -2,6 +2,7 @@
 using Domain._Base.Models;
 using Domain.Products;
 using Domain.Products.Interfaces;
+using Infrastructure.Caching.Enums;
 
 namespace Infrastructure.Persistence.Repositories
 {
@@ -18,7 +19,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<PaginatedModel<Product>> GetAll(string search, int? minPrice, int? maxPrice, int pageSize, int pageNumber)
         {
-            string cachingKey = $"{search} {minPrice} {maxPrice}";
+            string cachingKey = $"Product {search}_{minPrice}_{maxPrice}";
             PaginatedModel<Product> products = cacheService.GetData<PaginatedModel<Product>>(cachingKey);
 
             if (products == null)
@@ -27,8 +28,8 @@ namespace Infrastructure.Persistence.Repositories
 
                 DateTimeOffset expirationTime = DateTimeOffset.Now.AddMinutes(5.0);
                 cacheService.SetData(cachingKey, products, expirationTime);
+                cacheService.SetData(CachingCategories.Products.ToString(), cachingKey, expirationTime);
             }
-
 
             return products;
         }

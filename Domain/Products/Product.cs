@@ -1,6 +1,7 @@
 ﻿using Domain._Base.Models;
 using Domain.Products.Enums;
 using Domain.Products.Events;
+using Shared.Enums;
 using Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 
@@ -62,16 +63,19 @@ namespace Domain.Products
             Price = price;
 
             LogPriceChanges(price);
+            AddProductUpdatedEvent();
         }
 
         public void Delete()
         {
             IsDeleted = true;
+            AddProductUpdatedEvent();
         }
 
         public void ChangeState(ProductState state)
         {
             State = state;
+            AddProductUpdatedEvent();
         }
 
         #endregion
@@ -88,6 +92,12 @@ namespace Domain.Products
 
             ProductPriceChangedEvent productPriceChangedEvent = new(this.Id, price);
             AddDomainEvent(productPriceChangedEvent);
+        }
+
+        private void AddProductUpdatedEvent()
+        {
+            ProductUpdatedEvent productUpdatedEvent = new(CachingCategories.Products.ToString());
+            AddDomainEvent(productUpdatedEvent);
         }
 
         #endregion

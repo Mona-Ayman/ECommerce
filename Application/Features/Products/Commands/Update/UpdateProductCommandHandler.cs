@@ -39,8 +39,6 @@ namespace Application.Features.Products.Commands.Update
             product.Update(request.Name, request.Description, request.Price);
             productRepository.Update(product);
 
-            cacheService.RemoveData(nameof(Product));
-
             await unitOfWork.SaveAsync(cancellationToken);
         }
 

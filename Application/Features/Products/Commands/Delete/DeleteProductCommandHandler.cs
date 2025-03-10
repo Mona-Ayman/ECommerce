@@ -34,7 +34,6 @@ namespace Application.Features.Products.Commands.Delete
             Product product = await productRepository.FindByIdAsync(request.Id);
 
             product.Delete();
-            cacheService.RemoveData(nameof(Product));
 
             await unitOfWork.SaveAsync(cancellationToken);
         }
