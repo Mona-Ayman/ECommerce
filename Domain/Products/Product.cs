@@ -1,7 +1,6 @@
 ﻿using Domain._Base.Models;
 using Domain.Products.Enums;
 using Domain.Products.Events;
-using Shared.Enums;
 using Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 
@@ -96,7 +95,7 @@ namespace Domain.Products
 
         private void AddProductUpdatedEvent()
         {
-            ProductUpdatedEvent productUpdatedEvent = new(CachingCategories.Products.ToString());
+            ProductUpdatedEvent productUpdatedEvent = new();
             AddDomainEvent(productUpdatedEvent);
         }
 
