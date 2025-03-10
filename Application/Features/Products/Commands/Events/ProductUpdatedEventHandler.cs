@@ -1,5 +1,5 @@
-﻿using Application.Services;
-using Domain.Products.Events;
+﻿using Domain.Products.Events;
+using Domain.Products.Interfaces;
 using MediatR;
 
 namespace Application.Features.Products.Commands.Events
@@ -8,15 +8,15 @@ namespace Application.Features.Products.Commands.Events
     {
         #region Fields
 
-        private readonly ICacheService cacheService;
+        private readonly ICacheProductRepository cacheProductRepository;
 
         #endregion
 
         #region Constructors
 
-        public ProductUpdatedEventHandler(ICacheService cacheService)
+        public ProductUpdatedEventHandler(ICacheProductRepository cacheProductRepository)
         {
-            this.cacheService = cacheService;
+            this.cacheProductRepository = cacheProductRepository;
         }
 
         #endregion
@@ -25,7 +25,7 @@ namespace Application.Features.Products.Commands.Events
 
         public async Task Handle(ProductUpdatedEvent notification, CancellationToken cancellationToken)
         {
-            cacheService.RemoveData(notification.Key);
+            cacheProductRepository.Remove();
         }
 
         #endregion

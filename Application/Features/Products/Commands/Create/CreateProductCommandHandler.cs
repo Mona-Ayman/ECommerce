@@ -1,4 +1,4 @@
-﻿using Application.Services;
+﻿using Application.Services.CachingService;
 using Domain._Base.Interfaces;
 using Domain.Products;
 using Domain.Products.Interfaces;

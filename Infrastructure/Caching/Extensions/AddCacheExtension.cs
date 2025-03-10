@@ -1,4 +1,4 @@
-﻿using Application.Services;
+﻿using Application.Services.CachingService;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Caching.Extensions

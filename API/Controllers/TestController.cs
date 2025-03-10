@@ -1,6 +1,6 @@
 ﻿using API.Controllers.Base;
 using API.Helper;
-using Application.Services;
+using Application.Services.CachingService;
 using Infrastructure.Persistence.Context.ECommerce.Data;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Caching.Enums
+﻿namespace Application.Services.CachingService.Enums
 {
     public enum CachingCategories
     {

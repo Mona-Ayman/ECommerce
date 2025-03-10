@@ -1,8 +1,8 @@
-﻿using Application.Services;
+﻿using Application.Services.CachingService;
+using Application.Services.CachingService.Enums;
 using Domain._Base.Models;
 using Domain.Products;
 using Domain.Products.Interfaces;
-using Infrastructure.Caching.Enums;
 
 namespace Infrastructure.Persistence.Repositories
 {
@@ -32,6 +32,11 @@ namespace Infrastructure.Persistence.Repositories
             }
 
             return products;
+        }
+
+        public void Remove()
+        {
+            cacheService.RemoveData(CachingCategories.Products.ToString());
         }
     }
 }

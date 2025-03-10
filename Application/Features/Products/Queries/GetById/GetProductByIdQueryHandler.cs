@@ -1,5 +1,5 @@
 ﻿using Application.Features.Products.DTO;
-using Application.Services;
+using Application.Services.CachingService;
 using AutoMapper;
 using Domain.Products;
 using Domain.Products.Interfaces;

@@ -6,21 +6,17 @@ namespace Domain.Products.Events
     {
         #region Constructors
 
-        private ProductUpdatedEvent()
+        public ProductUpdatedEvent()
         {
-        }
-
-        public ProductUpdatedEvent(string key)
-        {
-            Key = key;
+            //Key = key;
         }
 
         #endregion
 
-        #region Members
+        //#region Members
 
-        public string Key { get; set; }
+        //public string Key { get; set; }
 
-        #endregion
+        //#endregion
     }
 }
