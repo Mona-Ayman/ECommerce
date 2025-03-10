@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using Domain._Base.Models;
 using Domain.Products;
 using Domain.Products.Interfaces;
 using Infrastructure.Persistence._Base;
@@ -30,7 +31,7 @@ namespace Infrastructure.Persistence.Repositories
 
         #region Methods
 
-        public async Task<List<Product>> GetAll(string search, int? minPrice, int? maxPrice, int pageSize, int pageNumber)
+        public async Task<PaginatedModel<Product>> GetAll(string search, int? minPrice, int? maxPrice, int pageSize, int pageNumber)
         {
             IQueryable<Product> productsQuery = dbset.AsQueryable();
 
@@ -40,9 +41,13 @@ namespace Infrastructure.Persistence.Repositories
             if (minPrice.HasValue && maxPrice.HasValue)
                 productsQuery = productsQuery.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
 
-            List<Product> products = await productsQuery.ToListAsync(); // await?
+            List<Product> products = await productsQuery.ToListAsync();
 
-            return products;
+            int count = products.Count;
+            products = products.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            PaginatedModel<Product> paginatedResult = new(pageNumber, pageSize, count, products);
+            return paginatedResult;
         }
 
         public Task<bool> NameExist(string name)

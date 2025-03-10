@@ -19,7 +19,7 @@ namespace Infrastructure.Persistence.Repositories
         public async Task<PaginatedModel<Product>> GetAll(string search, int? minPrice, int? maxPrice, int pageSize, int pageNumber)
         {
             string cachingKey = $"{search} {minPrice} {maxPrice}";
-            List<Product> products = cacheService.GetData<List<Product>>(cachingKey);
+            PaginatedModel<Product> products = cacheService.GetData<PaginatedModel<Product>>(cachingKey);
 
             if (products == null)
             {
@@ -29,11 +29,8 @@ namespace Infrastructure.Persistence.Repositories
                 cacheService.SetData(cachingKey, products, expirationTime);
             }
 
-            int count = products.Count;
-            products = products.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-            PaginatedModel<Product> paginatedResult = new(pageNumber, pageSize, count, products);
-            return paginatedResult;
+            return products;
         }
     }
 }
