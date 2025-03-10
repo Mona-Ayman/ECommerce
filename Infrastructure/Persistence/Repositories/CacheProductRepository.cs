@@ -28,7 +28,15 @@ namespace Infrastructure.Persistence.Repositories
 
                 DateTimeOffset expirationTime = DateTimeOffset.Now.AddMinutes(5.0);
                 cacheService.SetData(cachingKey, products, expirationTime);
-                cacheService.SetData(CachingCategories.Products.ToString(), cachingKey, expirationTime);
+
+                List<string> productCachingKeys = cacheService.GetData<List<string>>(CachingCategories.Products.ToString()) ?? new List<string>();
+
+                if (!productCachingKeys.Contains(cachingKey))
+                {
+                    productCachingKeys.Add(cachingKey);
+                    cacheService.SetData(CachingCategories.Products.ToString(), productCachingKeys, expirationTime);
+                }
+
             }
 
             return products;

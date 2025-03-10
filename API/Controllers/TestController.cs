@@ -17,9 +17,9 @@ namespace API.Controllers
             this.cacheService = cacheService;
         }
         [HttpGet]
-        public async Task<GlobalResponse<string>> AddProducts()
+        public async Task<GlobalResponse<List<string>>> AddProducts()
         {
-            string data = cacheService.GetData<string>("Products");
+            List<string> data = cacheService.GetData<List<string>>("Products");
             return ReturnResponse(data);
         }
 
