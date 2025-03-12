@@ -1,25 +1,30 @@
 ﻿using API.Controllers.Base;
 using API.Helper;
-using Application.Services.CachingService;
+using Application.Services.CachingService.Enums;
 using Infrastructure.Persistence.Context.ECommerce.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace API.Controllers
 {
     public class TestController : ApiControllerBase
     {
         private readonly ECommerceContext context;
-        private readonly ICacheService cacheService;
+        private readonly IMemoryCache memoryCache;
 
-        public TestController(ECommerceContext context, ICacheService cacheService)
+        //private readonly ICacheService cacheService;
+
+        public TestController(ECommerceContext context, IMemoryCache memoryCache)
         {
             this.context = context;
-            this.cacheService = cacheService;
+            this.memoryCache = memoryCache;
+            //this.cacheService = cacheService;
         }
         [HttpGet]
         public async Task<GlobalResponse<List<string>>> AddProducts()
         {
-            List<string> data = cacheService.GetData<List<string>>("Products");
+            //List<string> data = cacheService.GetData<List<string>>("Products");
+            List<string> data = memoryCache.Get<List<string>>(CachingCategory.Products);
             return ReturnResponse(data);
         }
 

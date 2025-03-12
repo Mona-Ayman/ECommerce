@@ -4,10 +4,8 @@ namespace Application.Services.CachingService
 {
     public interface ICacheService
     {
-        bool SetData<T, TKey>(TKey key, T value, DateTimeOffset expirationTime);
-        T GetData<T, TKey>(TKey key);
-        string GenerateKey(CachingCategory prefix, string key);
+        bool SetData<T>(CachingCategory category, string key, T value, DateTimeOffset expirationTime);
+        T GetData<T>(CachingCategory category, string key);
         void RemoveData(CachingCategory key);
-        List<T> AddCachingKeys<T>(CachingCategory key, T value);
     }
 }

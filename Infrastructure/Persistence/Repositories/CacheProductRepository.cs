@@ -20,19 +20,15 @@ namespace Infrastructure.Persistence.Repositories
         public async Task<PaginatedModel<Product>> GetAll(string search, int? minPrice, int? maxPrice, int pageSize, int pageNumber)
         {
             string key = $"{search}_{minPrice}_{maxPrice}";
-            string cachingKey = cacheService.GenerateKey(CachingCategory.Products, key);
 
-            PaginatedModel<Product> products = cacheService.GetData<PaginatedModel<Product>, string>(cachingKey);
+            PaginatedModel<Product> products = cacheService.GetData<PaginatedModel<Product>>(CachingCategory.Products, key);
 
             if (products == null)
             {
                 products = await productRepository.GetAll(search, minPrice, maxPrice, pageSize, pageNumber);
 
                 DateTimeOffset expirationTime = DateTimeOffset.Now.AddMinutes(5.0);
-                cacheService.SetData(cachingKey, products, expirationTime);
-
-                List<string> productCachingKeys = cacheService.AddCachingKeys(CachingCategory.Products, cachingKey);
-                cacheService.SetData(CachingCategory.Products, productCachingKeys, expirationTime);
+                cacheService.SetData(CachingCategory.Products, key, products, expirationTime);
             }
 
             return products;

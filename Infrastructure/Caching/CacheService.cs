@@ -23,36 +23,27 @@ namespace Infrastructure.Caching
 
         #region Methods
 
-        public T GetData<T, TKey>(TKey key)
+        public T GetData<T>(CachingCategory category, string key)
         {
-            return memoryCache.Get<T>(key);
+            string cachingKey = $"{category}_{key}";
+            return memoryCache.Get<T>(cachingKey);
         }
 
         public void RemoveData(CachingCategory key)
         {
-            //if (string.IsNullOrWhiteSpace(key))
-            //    return;
-
-            memoryCache.Remove(key);
+            memoryCache?.Remove(key);
         }
 
-        public bool SetData<T, TKey>(TKey key, T value, DateTimeOffset expirationTime)
+        public bool SetData<T>(CachingCategory category, string key, T value, DateTimeOffset expirationTime)
         {
-            memoryCache.Set(key, value, expirationTime);
+            string cachingKey = $"{category}_{key}";
+            memoryCache.Set(cachingKey, value, expirationTime);
+
+            List<string> cachingKeys = memoryCache.Get<List<string>>(category) ?? new List<string>();
+            cachingKeys.Add(cachingKey);
+            memoryCache.Set(category, cachingKeys, expirationTime);
+
             return true;
-        }
-
-        public List<T> AddCachingKeys<T>(CachingCategory key, T value)
-        {
-            List<T> cachingKeys = memoryCache.Get<List<T>>(key) ?? new List<T>();
-
-            cachingKeys.Add(value);
-            return cachingKeys;
-        }
-
-        public string GenerateKey(CachingCategory prefix, string key)
-        {
-            return $"{prefix} {key}";
         }
 
         #endregion

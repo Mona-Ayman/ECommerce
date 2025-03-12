@@ -1,6 +1,5 @@
 ﻿using Application.Features.Products.DTO;
 using Application.Services.CachingService;
-using Application.Services.CachingService.Enums;
 using AutoMapper;
 using Domain.Products;
 using Domain.Products.Interfaces;
@@ -35,13 +34,13 @@ namespace Application.Features.Products.Queries.GetById
 
         public async Task<ProductOutput> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            List<Product> cachedProducts = cacheService.GetData<List<Product>, CachingCategory>(CachingCategory.Products);
-            Product product;
+            //List<Product> cachedProducts = cacheService.GetData<List<Product>, CachingCategory>(CachingCategory.Products);
+            //Product product;
 
-            if (cachedProducts != null)
-                product = cachedProducts.FirstOrDefault(p => p.Id == request.Id);
+            //if (cachedProducts != null)
+            //    product = cachedProducts.FirstOrDefault(p => p.Id == request.Id);
 
-            product = await productRepository.FindByIdAsync(request.Id) ?? throw new NotFoundException(Localizations.NotFound);
+            Product product = await productRepository.FindByIdAsync(request.Id) ?? throw new NotFoundException(Localizations.NotFound);
             return mapper.Map<ProductOutput>(product);
         }
 
