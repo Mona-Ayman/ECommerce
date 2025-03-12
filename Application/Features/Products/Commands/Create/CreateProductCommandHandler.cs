@@ -38,8 +38,6 @@ namespace Application.Features.Products.Commands.Create
             Product product = new(request.Name, request.Description, request.Price);
             productRepository.Add(product);
 
-            cacheService.RemoveData(nameof(Product));
-
             await unitOfWork.SaveAsync(cancellationToken);
         }
 

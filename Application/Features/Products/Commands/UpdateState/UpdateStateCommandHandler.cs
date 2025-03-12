@@ -38,8 +38,6 @@ namespace Application.Features.Products.Commands.UpdateState
 
             product.ChangeState(request.State);
 
-            cacheService.RemoveData(nameof(Product));
-
             await unitOfWork.SaveAsync(cancellationToken);
         }
 

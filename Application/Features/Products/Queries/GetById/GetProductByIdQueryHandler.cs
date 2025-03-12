@@ -1,5 +1,6 @@
 ﻿using Application.Features.Products.DTO;
 using Application.Services.CachingService;
+using Application.Services.CachingService.Enums;
 using AutoMapper;
 using Domain.Products;
 using Domain.Products.Interfaces;
@@ -34,7 +35,7 @@ namespace Application.Features.Products.Queries.GetById
 
         public async Task<ProductOutput> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            List<Product> cachedProducts = cacheService.GetData<List<Product>>(nameof(Product));
+            List<Product> cachedProducts = cacheService.GetData<List<Product>, CachingCategory>(CachingCategory.Products);
             Product product;
 
             if (cachedProducts != null)

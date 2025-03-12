@@ -1,6 +1,6 @@
 ﻿namespace Application.Services.CachingService.Enums
 {
-    public enum CachingCategories
+    public enum CachingCategory
     {
         Products
     }

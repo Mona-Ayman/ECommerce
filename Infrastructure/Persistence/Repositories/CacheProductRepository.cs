@@ -19,8 +19,10 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<PaginatedModel<Product>> GetAll(string search, int? minPrice, int? maxPrice, int pageSize, int pageNumber)
         {
-            string cachingKey = $"Product {search}_{minPrice}_{maxPrice}";
-            PaginatedModel<Product> products = cacheService.GetData<PaginatedModel<Product>>(cachingKey);
+            string key = $"{search}_{minPrice}_{maxPrice}";
+            string cachingKey = cacheService.GenerateKey(CachingCategory.Products, key);
+
+            PaginatedModel<Product> products = cacheService.GetData<PaginatedModel<Product>, string>(cachingKey);
 
             if (products == null)
             {
@@ -29,14 +31,8 @@ namespace Infrastructure.Persistence.Repositories
                 DateTimeOffset expirationTime = DateTimeOffset.Now.AddMinutes(5.0);
                 cacheService.SetData(cachingKey, products, expirationTime);
 
-                List<string> productCachingKeys = cacheService.GetData<List<string>>(CachingCategories.Products.ToString()) ?? new List<string>();
-
-                //if (!productCachingKeys.Contains(cachingKey))
-                //{
-                productCachingKeys.Add(cachingKey);
-                cacheService.SetData(CachingCategories.Products.ToString(), productCachingKeys, expirationTime);
-                //}
-
+                List<string> productCachingKeys = cacheService.AddCachingKeys(CachingCategory.Products, cachingKey);
+                cacheService.SetData(CachingCategory.Products, productCachingKeys, expirationTime);
             }
 
             return products;
@@ -44,7 +40,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public void Remove()
         {
-            cacheService.RemoveData(CachingCategories.Products.ToString());
+            cacheService.RemoveData(CachingCategory.Products);
         }
     }
 }
