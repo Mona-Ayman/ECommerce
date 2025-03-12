@@ -19,8 +19,6 @@ namespace Infrastructure.Caching
             this.memoryCache = memoryCache;
         }
 
-
-
         #endregion
 
         #region Methods
