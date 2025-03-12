@@ -31,11 +31,11 @@ namespace Infrastructure.Persistence.Repositories
 
                 List<string> productCachingKeys = cacheService.GetData<List<string>>(CachingCategories.Products.ToString()) ?? new List<string>();
 
-                if (!productCachingKeys.Contains(cachingKey))
-                {
-                    productCachingKeys.Add(cachingKey);
-                    cacheService.SetData(CachingCategories.Products.ToString(), productCachingKeys, expirationTime);
-                }
+                //if (!productCachingKeys.Contains(cachingKey))
+                //{
+                productCachingKeys.Add(cachingKey);
+                cacheService.SetData(CachingCategories.Products.ToString(), productCachingKeys, expirationTime);
+                //}
 
             }
 
