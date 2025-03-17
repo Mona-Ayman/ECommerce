@@ -32,7 +32,7 @@ namespace Application.Features.Rates.Events
 
         public async Task Handle(ProductRatedEvent notification, CancellationToken cancellationToken)
         {
-            Product product = await productCachingRepository.FindByIdAsync(notification.ProductId) ?? throw new NotFoundException(Localizations.NotFound);
+            Product product = await productCachingRepository.FindByIdIncludeRates(notification.ProductId) ?? throw new NotFoundException(Localizations.NotFound);
 
             product.UpdateRate();
 

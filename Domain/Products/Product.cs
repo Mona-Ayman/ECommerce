@@ -83,9 +83,6 @@ namespace Domain.Products
 
         public void UpdateRate()
         {
-            //List<ProductRate> rates = Rates.Where(r => r.ProductId == Id).ToList();
-            //int userCount = rates.Count();
-            //decimal avg = rates.Average(r => r.Rate);
             int userCount = Rates.Count();
             decimal avg = Rates.Average(r => r.Rate);
 

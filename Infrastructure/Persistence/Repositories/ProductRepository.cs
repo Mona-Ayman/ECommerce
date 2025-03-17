@@ -19,11 +19,6 @@ namespace Infrastructure.Persistence.Repositories
         {
         }
 
-        public async ValueTask<Product> FindByIdIncludePrice(Guid id)
-        {
-            return await dbset.Include(p => p.TrackingPrices).SingleOrDefaultAsync(p => p.Id == id);
-        }
-
         #endregion
 
         #region Methods
@@ -45,6 +40,16 @@ namespace Infrastructure.Persistence.Repositories
 
             PaginatedModel<Product> paginatedResult = new(pageNumber, pageSize, count, products);
             return paginatedResult;
+        }
+
+        public async ValueTask<Product> FindByIdIncludePrice(Guid id)
+        {
+            return await dbset.Include(p => p.TrackingPrices).SingleOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async ValueTask<Product> FindByIdIncludeRates(Guid id)
+        {
+            return await dbset.Include(p => p.Rates).SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<bool> NameExist(string name)

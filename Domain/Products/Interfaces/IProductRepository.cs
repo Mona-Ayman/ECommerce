@@ -8,5 +8,6 @@ namespace Domain.Products.Interfaces
         Task<PaginatedModel<Product>> GetAll(string search, int? minPrice, int? maxPrice, int pageSize, int pageNumber);
         Task<bool> NameExist(string name);
         ValueTask<Product> FindByIdIncludePrice(Guid id);
+        ValueTask<Product> FindByIdIncludeRates(Guid id);
     }
 }
