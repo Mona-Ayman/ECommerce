@@ -43,6 +43,7 @@ namespace Domain.Products
         public decimal AvarageRate { get; private set; }
         public int TotalCountOfUserRates { get; private set; }
         public bool IsDeleted { get; private set; }
+        public byte[] RowVersion { get; private set; }
         public ProductState State { get; private set; }
         public ICollection<TrackingProductPrice> TrackingPrices { get; private set; } = new List<TrackingProductPrice>();
         public ICollection<ProductRate> Rates { get; private set; } = new List<ProductRate>();

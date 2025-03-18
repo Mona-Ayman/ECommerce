@@ -30,7 +30,7 @@ namespace Application.Features.Products.Commands.Update
 
         public async Task Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            Product product = await productCachingRepository.FindByIdIncludePrice(request.Id);
+            Product product = await productCachingRepository.FindByIdIncludePrice(request.Id) ?? throw new NotFoundException(Localizations.NotFound);
             await GuardAgainstDuplicatedName(request.Name, product.Name);
 
             product.Update(request.Name, request.Description, request.Price);

@@ -32,8 +32,9 @@ namespace Infrastructure.Caching
         public async Task RemoveData(CachingCategory categoryKey)
         {
             List<string> keys = memoryCache.Get<List<string>>(categoryKey);
-            foreach (string key in keys)
-                memoryCache.Remove(key);
+            if (keys != null)
+                foreach (string key in keys)
+                    memoryCache.Remove(key);
 
             memoryCache.Remove(categoryKey);
         }
